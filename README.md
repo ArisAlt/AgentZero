@@ -1,6 +1,11 @@
 # AgentZero
-Version: 0.1.0
-Path: /workspace/AgentZero
+Current Version: 0.1.0
+Version File: VERSION
+
+## Versioning
+
+The current version lives in the `VERSION` file at the project root and is exposed as `src.__version__`. The path to this file is available via `src.__version_path__`.
+CLI tools or public APIs should display this value when invoked with `--version`.
 
 ## FIND WHAT SELLS
 We collect marketplace signals such as titles, tags, price, favorites, reviews, images, and shop age. Data sources include Etsy, Printables/Thingiverse, eBay/Amazon, eRank, Alura, Marmalead, JungleScout, and Helium10.
@@ -25,4 +30,3 @@ Use demand-supply differences to pinpoint unmet needs.
 
 ### Ideation Engine (LLM with guardrails)
 Generate model concepts with constraints to ensure practical, printable designs.
-
