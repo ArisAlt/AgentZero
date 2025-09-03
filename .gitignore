@@ -1,0 +1,5 @@
+# Version: 0.3.0
+# Path: .gitignore
+
+__pycache__/
+reports/

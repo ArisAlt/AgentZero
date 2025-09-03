@@ -1,36 +1,34 @@
 # AgentZero
-Version: 0.1.0
+Version: 0.3.0
 Path: /workspace/AgentZero
 
-Project layout:
+Cron-ready pipeline that ingests marketplace listings and design trends, analyzes them, summarizes with an LLM, and exports HTML and CSV reports.
+
+## Project layout
 - `VERSION` – stores the current semantic version.
-- `src/data_sources/` – integrations for Etsy, Printables/Thingiverse, eBay/Amazon, and CSV importers.
-- `src/signals/` – processes favorites, reviews, listing age, and price/shipping.
-- `src/analytics/` – velocity calculations, MoM trends, clustering, and gap mining.
-- `src/ideation/` – LLM-driven model specification engine.
+- `src/`
+  - `ingest.py` – collects Etsy listings plus Printables and Thingiverse trends.
+  - `analyze.py` – computes simple metrics like counts and average price.
+  - `llm.py` – placeholder LLM summary generator.
+  - `report.py` – writes HTML and CSV reports.
+  - `pipeline.py` – orchestrates all steps; entry point for cron.
 
-## FIND WHAT SELLS
-We collect marketplace signals such as titles, tags, price, favorites, reviews, images, and shop age. Data sources include Etsy,
- Printables/Thingiverse, eBay/Amazon, eRank, Alura, Marmalead, JungleScout, and Helium10.
+## Data sources
+- **Etsy**: titles, tags, price, favorites, review counts & dates, images, shop age.
+- **Printables** and **Thingiverse**: popularity via likes/downloads to spot design trends.
 
-### Sales Velocity
-Track listing order counts to gauge daily traction.
+## Usage
+Run the pipeline once:
 
-### MoM Trend
-Compare month-over-month changes to spot emerging demand.
+```bash
+python -m src.pipeline
+```
 
-### Price Bands
-Segment listings into price tiers to detect under- or over-served ranges.
+Reports are written to `reports/<timestamp>/`.
 
-### Theme Clusters
-Group listings by recurring concepts to highlight popular themes.
+## Cron
+Schedule daily execution at 2am:
 
-## SUGGEST NEW MODELS
-Trend gaps and review complaints feed into model specifications detailing the problem statement, variants, printability, bill of
- materials and packaging, and a photoshoot list.
-
-### Gap Mining
-Use demand-supply differences to pinpoint unmet needs.
-
-### Ideation Engine (LLM with guardrails)
-Generate model concepts with constraints to ensure practical, printable designs.
+```
+0 2 * * * cd /workspace/AgentZero && /usr/bin/python -m src.pipeline >> cron.log 2>&1
+```
